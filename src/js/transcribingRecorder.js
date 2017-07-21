@@ -71,6 +71,16 @@
         console.log("Record");
         that.mediaRecorder.start();
 
+        var recogEvents = ["onaudiostart", "onaudioend", "onsoundstart", "onsoundend", "onspeechstart", "onspeechend"];
+
+        fluid.each(recogEvents, function (recogEvent) {
+            that.speechRecognition[recogEvent] = function (e) {
+                var date = new Date();
+                date = date.toUTCString();
+                console.log("Speech recognition event of type " + recogEvent + " occured at " + date, e);
+            };
+        });
+
         that.speechRecognition.onresult =
         (function (e) {
             var transcriptArrayLength = that.transcript.length;
